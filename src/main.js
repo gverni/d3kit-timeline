@@ -210,7 +210,10 @@ class Timeline extends SvgChart {
       }
     }
 
-    const labelBgColor = helper.functor(options.labelBgColor);
+    const labelBgColor = function (data) {
+      return data.labelBgColor ? data.labelBgColor : options.labelBgColor 
+    }
+
     const linkColor = helper.functor(options.linkColor);
 
     // Draw label rectangles
