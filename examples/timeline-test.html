@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Example - D3Kit-Timeline</title>
+    <style>
+       .axis path{
+         fill: none;
+         stroke-width: 2px;
+         stroke: #222;
+       }
+       .axis line{
+         fill: none;
+         stroke-width: 1px;
+         stroke: #222;
+       }
+       .axis text{
+         font-size: 10px;
+       }
+       path.link{
+         stroke-width: 2px;
+         opacity: 0.6;
+       }
+       text.label-text{
+         font-size: 12px;
+       }
+     </style>
+     <!-- Latest compiled and minified CSS -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+      
+</head>
+
+<body>
+<script>
+
+    function savesvg() {
+      //get svg element.
+      var svg = document.querySelector(".d3kit-plate");
+
+      //get svg source.
+      var serializer = new XMLSerializer();
+      var source = serializer.serializeToString(svg);
+
+      //add name spaces.
+      if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
+          source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+      }
+      if(!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)){
+          source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+      }
+
+      //add xml declaration
+      source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+
+      //convert svg source to URI data scheme.
+      var url = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source);
+
+      //set url value to a element's href attribute.
+      document.getElementById("link").href = url;
+      //you can download svg file by right click menu.
+      //location.href = url
+
+
+    }
+
+
+</script>
+
+  <div id="project-timeline"></div>
+  <p>&nbsp;</p>
+  <button onclick="savesvg()">Save</button> <a id="link">download</a></p>
+
+  <!-- Use d3 v4 -->
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3kit/3.2.0/d3kit.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/labella/1.1.4/labella.min.js"></script>
+  <script src="../dist/d3kit-timeline.min.js"></script>
+  <script>
+
+
+    var data = [
+	    {time: new Date(2017, 4, 25), milestone: 'Project start', labelBgColor: 'green'},
+	    {time: new Date(2017, 7, 15), milestone: 'Milestone 1'},
+	    {time: new Date(2017, 7, 31), milestone: 'Milestone 2'},
+	    {time: new Date(2017, 11, 19), milestone: 'Milestone 3'},
+	    {time: new Date(2018, 3, 30), milestone: 'Milestone 4'},
+	    {time: new Date(2018, 4, 30), milestone: 'Milestone 5 long text'},
+	    {time: new Date(2018, 5, 30), milestone: 'Milestone 6'},
+	    {time: new Date(2018, 6, 16), milestone: 'Milestone 7'},
+	    {time: new Date(2018, 7, 16), milestone: 'Milestone 8'},
+	    {time: new Date(2018, 8, 15), milestone: 'Project end', labelBgColor: 'red'},
+	];
+
+    var chart = new d3KitTimeline('#project-timeline', {
+      direction: 'up',
+      initialWidth: 800,
+      initialHeight: 110,
+      labelBgColor: "#777",
+      textFn: function(d) { return d.milestone;},
+/*      labella: {
+          maxPos: 760, // We should calculate that as: initalWidth - f(length last milestone)
+          algorithm: 'none' 
+      } */
+    });
+    chart.data(data);
+</script>
+</body>
+
+</html>
