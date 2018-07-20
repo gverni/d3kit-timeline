@@ -28,7 +28,8 @@
   },
   "scripts": {
     "dev": "./node_modules/lazynerd-devtools/dev --config webpack.config.examples.js",
-    "build": "rm -rf dist && NODE_ENV=production ./node_modules/lazynerd-devtools/build --config webpack.config.lib.js",
+    "lazynerd-build": "rm -rf dist && NODE_ENV=production ./node_modules/lazynerd-devtools/build --config webpack.config.lib.js",
+    "build": "rm -rf dist && NODE_ENV=production ./node_modules/.bin/webpack --config webpack.config.lib.js",
     "lint": "./node_modules/lazynerd-devtools/lint \"src/**/*.@(js|jsx)\"",
     "lint-fix": "./node_modules/lazynerd-devtools/lint --fix \"src/**/*.@(js|jsx)\"",
     "build-examples": "rm -rf examples/dist && NODE_ENV=production ./node_modules/lazynerd-devtools/build --config webpack.config.examples.js",
