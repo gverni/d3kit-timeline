@@ -189,6 +189,20 @@ class Timeline extends SvgChart {
       nodeHeight = max(nodes, rectHeight);
     }
 
+    // Before creating the labella renderer, calculate 
+    // layerGaps based on innnerHeight, number of layers 
+    // and label size 
+    if (options.direction === 'up' || options.direction === 'down') {
+      var numLayers = 0
+      var maxRectHeight = 0 
+      nodes.map((node) => {
+        if (numLayers < node.layerIndex) { numLayers =  node.layerIndex}
+        if (node.h > maxRectHeight) { maxRectHeight = node.h }
+      })
+      numLayers++
+      options.layerGap = (this.getInnerHeight() - (numLayers * maxRectHeight)) / numLayers
+    }
+
     const renderer = new labella.Renderer({
       nodeHeight,
       layerGap: options.layerGap,
@@ -281,10 +295,10 @@ class Timeline extends SvgChart {
     const data = this.data() || [];
     const options = this.options();
     if (options.direction === 'up' || options.direction === 'down') {
-    if (!options.labella.maxPos) {
-      options.labella.maxPos = options.initialWidth - options.margin.left - options.margin.right
-      if (!options.labella.density) {options.labella.density = 1}
-    }
+      if (!options.labella.maxPos) {
+        options.labella.maxPos = options.initialWidth - options.margin.left - options.margin.right
+        if (!options.labella.density) {options.labella.density = 1}
+      }  
     }
     this.force = new labella.Force(options.labella);
 
