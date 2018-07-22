@@ -280,6 +280,12 @@ class Timeline extends SvgChart {
 
     const data = this.data() || [];
     const options = this.options();
+    if (options.direction === 'up' || options.direction === 'down') {
+    if (!options.labella.maxPos) {
+      options.labella.maxPos = options.initialWidth - options.margin.left - options.margin.right
+      if (!options.labella.density) {options.labella.density = 1}
+    }
+    }
     this.force = new labella.Force(options.labella);
 
     if(options.domain){
