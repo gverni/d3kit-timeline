@@ -4,6 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+            .axis path{
+              fill: none;
+              stroke-width: 2px;
+              stroke: #222;
+            }
+            .axis line{
+              fill: none;
+              stroke-width: 1px;
+              stroke: #222;
+            }
+            .axis text{
+              font-size: 10px;
+            }
+            path.link{
+              stroke-width: 2px;
+              opacity: 0.6;
+            }
+            text.label-text{
+              font-size: 12px;
+            }
+          </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <title>Document</title>
 </head>
 <body>
@@ -22,7 +45,7 @@
 2018-8-15 | Project end | red
     </textarea></p>
     <p><button onclick="generateChart()">Generate</button></p>
-    <div id="project-timeline" style="border: solid;"></div>
+    <div id="project-timeline"></div>
 
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3kit/3.2.0/d3kit.min.js"></script>
@@ -40,8 +63,8 @@
                 tmpMilestone.time = new Date(parsedRow[0].trim())
                 tmpMilestone.milestone= parsedRow[1].trim()
                 if (parsedRow.length === 3) {tmpMilestone.labelBgColor = parsedRow[2].trim()}
+                data.push(tmpMilestone)
             }
-            data.push(tmpMilestone)
         }) 
 
         var chart = new d3KitTimeline('#project-timeline', {
