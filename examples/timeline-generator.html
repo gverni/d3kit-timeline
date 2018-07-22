@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <p>Start Date: <input type="text" id="start-date"></p>
+    <p>End date: <input type="text" id="end-date"></p>
+    <p>Milestones <br><textarea name="" id="milestones" cols="30" rows="10">
+            2017, 4, 25 | Project start | green
+            2017, 7, 15 | Milestone 1
+             2017, 7, 31 | Milestone 2
+             2017, 11, 19 | Milestone 3
+             2018, 3, 30 | Milestone 4
+             2018, 4, 30 | Milestone 5 long text
+             2018, 5, 30 | Milestone 6
+             2018, 6, 16 | Milestone 7
+             2018, 7, 16 | Milestone 8
+             2018, 8, 15 | Project end'| red
+    </textarea></p>
+    <p><button onclick="generateChart()">Generate</button></p>
+    <div id="project-timeline" style="border: solid;"></div>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3kit/3.2.0/d3kit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/labella/1.1.4/labella.min.js"></script>
+    <script src="../dist/d3kit-timeline.min.js"></script>
+    <script>
+
+    function generateChart() {
+        document.getElementById('project-timeline').innerHTML=''
+        var data = []
+        document.getElementById('milestones').value.split('\n').forEach((row) => {
+            let tmpMilestone = {}
+            let parsedRow = row.split('|')
+            if (parsedRow.length >=2 ) {
+                tmpMilestone.time = new Date(parsedRow[0].trim())
+                tmpMilestone.milestone= parsedRow[1].trim()
+                if (parsedRow.length === 3) {tmpMilestone.labelBgColor = parsedRow[2].trim()}
+            }
+            data.push(tmpMilestone)
+        }) 
+
+        var chart = new d3KitTimeline('#project-timeline', {
+        direction: 'up',
+        initialWidth: 800,
+        initialHeight: 110,
+        labelBgColor: "#777",
+        textFn: function(d) { return d.milestone;},
+        });
+        chart.data(data);
+    }
+
+    </script>
+</body>
+</html>
