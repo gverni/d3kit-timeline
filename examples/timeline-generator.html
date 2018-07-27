@@ -32,6 +32,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <!-- SaveAsPng -->
+    <script src="js/saveSvgAsPng.js"></script>
     <title>Timeline generator</title>
 </head>
 <body>
@@ -76,7 +78,7 @@
         <div class="col"></div>
 </div>                                    
     </div>
-    <p id="download-link-p" class="text-center" style="display: none;"><a href="" id="download-link" >Download SVG file</a> (right click on the link + Save As)</p>
+    <p id="download-p" class="text-center" style="display: none;"><button class="btn btn-primary" id="download-button" onclick="saveSvgAsPng(document.querySelector('.d3kit-plate'), 'timeline.png', {backgroundColor: 'white'});">Save</button></p>
 
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3kit/3.2.0/d3kit.min.js"></script>
@@ -132,7 +134,8 @@
         textFn: function(d) { return d.milestone;},
         });
         chart.data(data);
-        saveSvg()
+        document.getElementById('download-p').style.display = 'inherit'
+        document.getElementById('download-button').focus()
     }
 
     </script>
